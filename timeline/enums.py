@@ -1,0 +1,10 @@
+TIMELINE_CATEGORY = (
+    ("SIGNUP", "SIGNUP"),
+    ("ACCOUNT_VERIFIED", "ACCOUNT_VERIFIED"),
+    ("LIST_APP", "LIST_APP"),
+    ("NEW_VERSION", "NEW_VERSION")
+)
+TIMELINE_ENTITY = (
+    ("USER", "USER"),
+    ("APP", "APP")
+)

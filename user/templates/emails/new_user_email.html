@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>New User</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap"
+          rel="stylesheet">
+    <style>
+        .code {
+            background: lightgray;
+        }
+        @media (prefers-color-scheme: dark) {
+            body {
+                background: #333536;
+                color: whitesmoke;
+            }
+            .code {
+                background: #334647;
+                color: white;
+            }
+        }
+    </style>
+</head>
+<body style="font-family: 'Inter', 'Roboto', 'Lucida Grande', Verdana, Arial, sans-serif; font-size: 1.4em; line-height: 2.0em;">
+    <section style="background: inherit; margin: auto; padding: 20px 40px;">
+        <header style="font-size: 40px; font-weight: 900; padding: 40px 0;">Nine</header>
+        <div style="">Hi {{ firstname }} {{ lastname }},</div>
+        <section style="padding: 20px 0;">
+            Welcome to the Community. 🥳
+            <br>We are glad to have you.
+            <div>We are made in Naija, for Naija and the Rest of the World.</div>
+
+            <div style="margin: 24px auto;">
+                We are different with a touch of style.
+
+                <div>Ready to join us? Copy the below code to verify your account.</div>
+
+                <div class="code" style="font-size: 32px; margin: 16px auto; padding: 16px 32px; border-radius: 8px;">{{ code }}</div>
+
+                We are so glad to have you.🎉🎊
+
+                Welcome... 👏🏼👏🏼
+            </div>
+        </section>
+        <footer style="margin: 8px auto; padding: 8px 12px; text-align: center;">
+            Copyright &copy; Nine 2023
+            <br> All rights reserved.
+
+            <div></div>
+        </footer>
+    </section>
+</body>
+</html>

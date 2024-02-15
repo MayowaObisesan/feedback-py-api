@@ -1,0 +1,11 @@
+Welcome {{firstname}} {{lastname}},
+
+We are glad to have you join this platform.
+
+Kindly copy this code to verify your signup.
+{{code}}
+
+Once again, Welcome to Nine.
+
+Copyright Nine 2023
+All rights reserved.

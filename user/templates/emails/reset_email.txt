@@ -1,0 +1,12 @@
+Welcome {{firstname}} {{lastname}},
+
+We received a request that you forgot your password and will like to set a new one.
+If this is not you, discard this mail, and do not click on any link within this mail.
+
+If you initiated this request,
+
+Kindly copy this code to verify your signup.
+{{code}}
+
+Copyright Nine 2023
+All rights reserved.
