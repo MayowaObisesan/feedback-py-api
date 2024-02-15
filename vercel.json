@@ -2,9 +2,11 @@
   "version": 2,
   "builds": [
     {
-      "src": "nine_api/wsgi.py",
+      "src": "feedback_api/wsgi.py",
       "use": "@vercel/python",
-      "config": {"maxLambdaSize": "15mb"}
+      "config": {
+        "maxLambdaSize": "15mb"
+      }
     },
     {
       "src": "build_files.sh",
@@ -21,7 +23,7 @@
     },
     {
       "src": "/(.*)",
-      "dest": "nine_api/wsgi.py"
+      "dest": "feedback_api/wsgi.py"
     }
   ]
 }
