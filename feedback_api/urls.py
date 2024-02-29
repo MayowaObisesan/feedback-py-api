@@ -23,14 +23,14 @@ from drf_spectacular.views import (
 )
 from rest_framework_simplejwt.views import TokenRefreshView, TokenVerifyView
 
-# from apps.views import AppsView
+# from feedback.views import AppsView
 from user.views import MyTokenObtainPairView, Logout
 
 app_name = "feedback"
 
 # router = routers.DefaultRouter()
 # router.register(r"user", views.UserView, basename="user")
-# router.register(r"app", AppsView, basename="apps")
+# router.register(r"app", AppsView, basename="feedback")
 
 urlpatterns = [
     path("api/v1/token/", MyTokenObtainPairView.as_view(), name="token_obtain_pair"),
@@ -48,7 +48,7 @@ urlpatterns = [
     ),
     path("admin/", admin.site.urls),
     path("i18n/", include("django.conf.urls.i18n")),
-    path("api/v1/app/", include("apps.urls")),
+    path("api/v1/feedback/", include("feedbacks.urls")),
     path("api/v1/user/", include("user.urls")),
     path("api/v1/timeline/", include("timeline.urls")),
     # path('', include(router.urls))

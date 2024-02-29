@@ -8,8 +8,8 @@ from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.views import TokenObtainPairView
 
-from apps.models import AppsModel
-from apps.serializers import ListAppsSerializer
+from feedback.models import FeedbackModel
+from feedback.serializers import ListFeedbackSerializer
 from user.models import User
 from user.serializers import (
     ListUserSerializer, CustomTokenObtainPairSerializer, CreateUserSerializer, VerifyUserSerializer,
@@ -129,16 +129,16 @@ class UserView(viewsets.ModelViewSet):
         serializer.save()
         return Response(data={'success': True}, status=status.HTTP_200_OK)
 
-    @action(methods=["GET"], detail=True, url_path="apps", serializer_class=ListAppsSerializer)
+    @action(methods=["GET"], detail=True, url_path="feedback", serializer_class=ListFeedbackSerializer)
     def user_apps(self, request, pk=None):
         """
-        Endpoint that returns the list user's apps
+        Endpoint that returns the list user's feedback
         :param pk:
         :param request: The HTTPRequest
         :return: List of User's Apps
         """
         user = self.get_object()
-        apps_list = AppsModel.objects.filter(owner=user.pk)
+        apps_list = FeedbackModel.objects.filter(owner=user.pk)
         # Paginate queryset
         pages = self.paginate_queryset(apps_list)
         if pages is not None:
@@ -147,19 +147,19 @@ class UserView(viewsets.ModelViewSet):
         serializer = self.serializer_class(instance=apps_list, many=True)
         return Response(data=serializer.data, status=status.HTTP_200_OK)
 
-    @action(methods=["GET"], detail=True, url_path="apps-suggestion", serializer_class=ListAppsSerializer)
+    @action(methods=["GET"], detail=True, url_path="feedback-suggestion", serializer_class=ListFeedbackSerializer)
     def user_apps_suggestion(self, request, pk=None):
         """
-        Endpoint that returns apps suggestions for a user
+        Endpoint that returns feedback suggestions for a user
         :param pk:
         :param request: The HTTPRequest
         :return: List a suggestion of Apps
         :Howto:
-        1. From the list of the user apps
-        2. From the list of tags of the user apps.
+        1. From the list of the user feedback
+        2. From the list of tags of the user feedback.
         """
         user = self.get_object()
-        apps_list = AppsModel.objects.filter(owner=user.pk)
+        apps_list = FeedbackModel.objects.filter(owner=user.pk)
         # Paginate queryset
         pages = self.paginate_queryset(apps_list)
         if pages is not None:

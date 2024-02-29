@@ -1,15 +1,15 @@
 import django_filters
 
-from apps.models import AppsModel, VersionModel
+from feedback.models import FeedbackModel
 
 
-class AppsFilters(django_filters.FilterSet):
+class FeedbackFilters(django_filters.FilterSet):
     """ Filters for Nine Apps """
-    name = django_filters.CharFilter(field_name='name', lookup_expr='iexact')
+    category = django_filters.CharFilter(field_name='category', lookup_expr='iexact')
 
     class Meta:
-        model = AppsModel
-        fields = ["name", "name_id", "category"]
+        model = FeedbackModel
+        fields = ["category"]
 
 
 class VersionFilters(django_filters.FilterSet):

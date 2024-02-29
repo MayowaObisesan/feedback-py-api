@@ -66,7 +66,7 @@ INSTALLED_APPS = [
     "debug_toolbar",
     "feedback_api.celery.CeleryConfig",
     "user",
-    "apps",
+    "feedback",
     "timeline",
 ]
 
@@ -108,19 +108,19 @@ WSGI_APPLICATION = "feedback_api.wsgi.application"
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
 DATABASES = {
+    # "prod_default": {
+    #     "ENGINE": "django.db.backends.postgresql",
+    #     "NAME": os.getenv("DATABASE_NAME"),
+    #     "USER": os.getenv("DATABASE_USER"),
+    #     "PASSWORD": os.getenv("DATABASE_PASSWORD"),
+    #     "HOST": os.getenv("DATABASE_HOST"),
+    #     "PORT": os.getenv("DATABASE_PORT"),
+    #     # 'OPTIONS': {
+    #     #     "service": "nine_service",
+    #     #     "passfile": ".nine_pgpass"
+    #     # }
+    # },
     "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": os.getenv("DATABASE_NAME"),
-        "USER": os.getenv("DATABASE_USER"),
-        "PASSWORD": os.getenv("DATABASE_PASSWORD"),
-        "HOST": os.getenv("DATABASE_HOST"),
-        "PORT": os.getenv("DATABASE_PORT"),
-        # 'OPTIONS': {
-        #     "service": "nine_service",
-        #     "passfile": ".nine_pgpass"
-        # }
-    },
-    "test": {
         "ENGINE": "django.db.backends.sqlite3",
         "NAME": BASE_DIR / "db.sqlite3",
     },
@@ -185,7 +185,7 @@ ASGI_APPLICATION = "feedback_api.asgi.application"
 The JWTStatelessUserAuthentication backend’s authenticate method does not perform a database lookup to obtain a user 
 instance. Instead, it returns a rest_framework_simplejwt.models.TokenUser instance which acts as a stateless user 
 object backed only by a validated token instead of a record in a database. This can facilitate developing single 
-sign-on functionality between separately hosted Django apps which all share the same token secret key. To use this 
+sign-on functionality between separately hosted Django feedback which all share the same token secret key. To use this 
 feature, add the rest_framework_simplejwt.authentication.JWTStatelessUserAuthentication backend (instead of the default
 JWTAuthentication backend) to the Django REST Framework’s DEFAULT_AUTHENTICATION_CLASSES config setting:
 """
@@ -281,8 +281,8 @@ SPECTACULAR_SETTINGS = {
     #     "displayRequestDuration": True
     # },
     "UPLOADED_FILES_USE_URL": True,
-    "TITLE": "Nine API",
-    "DESCRIPTION": "Nine API Doc",
+    "TITLE": "Feedback API",
+    "DESCRIPTION": "Feedback API Doc",
     "VERSION": "0.1.0",
     "LICENSE": {"name": "BSD License"},
     "CONTACT": {

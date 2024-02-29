@@ -10,37 +10,41 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework_simplejwt.authentication import JWTAuthentication
 
-from apps.enums import APPLE_APPS_CATEGORY
-from apps.filters import AppsFilters, VersionFilters
-from apps.models import AppsModel, ImageModel, VersionModel, TimelineModel
-from apps.pagination import NinePagination
-from apps.permissions import IsAppCreatorOrReadOnly
-from apps.serializers import AppsSerializer, AppsSearchSerializer, ListAppsSerializer, AppImageSerializer, \
-    ListVersionSerializer, VersionSerializer
-from apps.enums import SOCIAL_ACCOUNT_CHOICES
+from .enums import APPLE_APPS_CATEGORY
+from .filters import FeedbackFilters
+from .models import FeedbackModel, ImageModel, TimelineModel
+from .pagination import NinePagination
+from .permissions import IsAppCreatorOrReadOnly
+from .serializers import (
+    FeedbackSerializer,
+    FeedbackSearchSerializer,
+    ListFeedbackSerializer,
+    FeedbackImageSerializer
+)
+from .enums import SOCIAL_ACCOUNT_CHOICES
 
 
 class SearchView(viewsets.ModelViewSet):
-    queryset = AppsModel.objects.all()
-    serializer_class = AppsSearchSerializer
+    queryset = FeedbackModel.objects.all()
+    serializer_class = FeedbackSearchSerializer
 
     def get_queryset(self):
-        return AppsModel.objects.all()
+        return FeedbackModel.objects.all()
 
 
-class AppsView(viewsets.ModelViewSet):
-    queryset = AppsModel.objects.all()
-    serializer_class = ListAppsSerializer
+class FeedbackView(viewsets.ModelViewSet):
+    queryset = FeedbackModel.objects.all()
+    serializer_class = ListFeedbackSerializer
     authentication_classes = [JWTAuthentication]
     permission_classes = []
     # pagination_class = NinePagination
-    filterset_class = AppsFilters
+    filterset_class = FeedbackFilters
     filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
     http_method_names = ["get", "post", "patch", "put", "delete"]
     # parser_classes = []
-    lookup_field = 'name_id'
+    # lookup_field = 'name_id'
     # lookup_url_kwarg = 'name'
-    search_fields = ['name']
+    search_fields = ['description', 'long_description']
     # ordering_fields = ['name']
 
     def get_object(self):
@@ -49,7 +53,7 @@ class AppsView(viewsets.ModelViewSet):
 
     def get_serializer_class(self):
         if self.action in ["create", "update", "partial_update"]:
-            return AppsSerializer
+            return FeedbackSerializer
         return self.serializer_class
 
     def get_permissions(self):
@@ -115,7 +119,7 @@ class AppsView(viewsets.ModelViewSet):
     # @action(methods=["GET", "POST"], detail=False, url_path="search", permission_classes=[],
     #         serializer_class=AppsSearchSerializer)
     def search_apps(self, request, pk=None):
-        app_obj = AppsModel.objects.all()
+        app_obj = FeedbackModel.objects.all()
         serializer = self.serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
         app_name = serializer.validated_data.get('app_name')
@@ -126,13 +130,13 @@ class AppsView(viewsets.ModelViewSet):
             app_serializer = self.serializer_class(app_search_obj, many=True, data=request.data)
             return Response(app_serializer.data)
         elif request.method == "POST":
-            app_search_obj = AppsModel.objects.filter(
+            app_search_obj = FeedbackModel.objects.filter(
                 Q(app_name__icontains=app_name)
                 | Q(app_owner__username__icontains=app_name)
             )
             app_search_serializer = self.serializer_class(app_search_obj, many=True, data=request.data)
             app_search_serializer.is_valid(raise_exception=True)
-            search_serializer = AppsSerializer(app_search_obj, many=True)
+            search_serializer = FeedbackSerializer(app_search_obj, many=True)
             return Response(search_serializer.data)
 
         # search_query_params = request.query_params
@@ -167,7 +171,7 @@ class AppsView(viewsets.ModelViewSet):
         #         )
         #     return Response(search_result_serializer.errors)
 
-    @action(methods=["GET"], detail=False, url_path="latest", serializer_class=AppsSerializer, authentication_classes=[])
+    @action(methods=["GET"], detail=False, url_path="latest", serializer_class=FeedbackSerializer, authentication_classes=[])
     def latest_apps(self, request, pk=None):
         apps_obj = self.queryset.filter(created_at__range=[timezone.now(), timezone.now()+timezone.timedelta(days=50)])
         app_serializer = self.serializer_class(apps_obj, many=True)
@@ -195,7 +199,7 @@ class AppsView(viewsets.ModelViewSet):
         image_obj = ImageModel.objects.filter(pk=id)
         if not image_obj.exists():
             return Response(data={"success": False}, status=status.HTTP_404_NOT_FOUND)
-        serializer = AppImageSerializer(image_obj.first())
+        serializer = FeedbackImageSerializer(image_obj.first())
         return Response(data=serializer.data, status=status.HTTP_200_OK)
 
     @transaction.atomic
@@ -210,7 +214,7 @@ class AppsView(viewsets.ModelViewSet):
         image_obj = ImageModel.objects.filter(pk=id)
         if not image_obj.exists():
             return Response(data={"success": False}, status=status.HTTP_404_NOT_FOUND)
-        serializer = AppImageSerializer(image_obj.first(), data=request.data, context={"request": request})
+        serializer = FeedbackImageSerializer(image_obj.first(), data=request.data, context={"request": request})
         if not serializer.is_valid():
             return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         serializer.save()
@@ -229,20 +233,3 @@ class AppsView(viewsets.ModelViewSet):
             return Response(data={"success": False}, status=status.HTTP_404_NOT_FOUND)
         image_obj.delete()
         return Response(data={"success": True}, status=status.HTTP_200_OK)
-
-
-class VersionView(viewsets.ModelViewSet):
-    queryset = VersionModel.objects.all()
-    serializer_class = ListVersionSerializer
-    authentication_classes = [JWTAuthentication]
-    permission_classes = []
-    # pagination_class = NinePagination
-    filterset_class = VersionFilters
-    filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
-    http_method_names = ["get", "post", "delete"]
-    search_fields = ['app', 'release_type']
-
-    def get_serializer_class(self):
-        if self.action in ["create"]:
-            return VersionSerializer
-        return self.serializer_class
