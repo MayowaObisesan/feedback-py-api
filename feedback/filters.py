@@ -10,10 +10,3 @@ class FeedbackFilters(django_filters.FilterSet):
     class Meta:
         model = FeedbackModel
         fields = ["category"]
-
-
-class VersionFilters(django_filters.FilterSet):
-    """ Filters for Nine VersionModel """
-    class Meta:
-        model = VersionModel
-        fields = ["app", "release_type", "is_upgrade"]

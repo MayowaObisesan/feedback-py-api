@@ -35,7 +35,8 @@ class SearchView(viewsets.ModelViewSet):
 class FeedbackView(viewsets.ModelViewSet):
     queryset = FeedbackModel.objects.all()
     serializer_class = ListFeedbackSerializer
-    authentication_classes = [JWTAuthentication]
+    # authentication_classes = [JWTAuthentication]
+    authentication_classes = []
     permission_classes = []
     # pagination_class = NinePagination
     filterset_class = FeedbackFilters
@@ -58,8 +59,8 @@ class FeedbackView(viewsets.ModelViewSet):
 
     def get_permissions(self):
         permission_classes = self.permission_classes
-        if self.action in ["create", "update", "partial_update"]:
-            permission_classes = [permissions.IsAuthenticated, IsAppCreatorOrReadOnly]
+        # if self.action in ["create", "update", "partial_update"]:
+        #     permission_classes = [permissions.IsAuthenticated, IsAppCreatorOrReadOnly]
         return [permission() for permission in permission_classes]
 
     def get_authenticators(self):
@@ -68,7 +69,7 @@ class FeedbackView(viewsets.ModelViewSet):
         try:
             if self.request.POST:
                 print("INside write requests")
-                authentication_classes = [JWTAuthentication]
+                # authentication_classes = [JWTAuthentication]
             if self.request.GET:
                 authentication_classes = []
         except:

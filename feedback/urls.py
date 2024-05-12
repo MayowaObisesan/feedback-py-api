@@ -2,7 +2,7 @@
 from django.urls import path, include
 from rest_framework import routers
 
-from feedback.views import FeedbackView, VersionView
+from feedback.views import FeedbackView
 
 # restframework imports
 # from rest_framework.urlpatterns import format_suffix_patterns

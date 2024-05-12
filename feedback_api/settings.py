@@ -124,6 +124,14 @@ DATABASES = {
         "ENGINE": "django.db.backends.sqlite3",
         "NAME": BASE_DIR / "db.sqlite3",
     },
+    # "users": {
+    #     'ENGINE': 'djongo',
+    #     'NAME': os.getenv("USER_DB_NAME"),
+    #     'ENFORCE_SCHEMA': False,
+    #     'CLIENT': {
+    #         'host': os.getenv("USER_DB")
+    #     }
+    # }
 }
 
 
@@ -202,6 +210,7 @@ REST_FRAMEWORK = {
         # 'rest_framework.authentication.BasicAuthentication',
         # 'rest_framework.authentication.SessionAuthentication',
         # 'rest_framework.authentication.TokenAuthentication',
+        # 'feedback.authentication.CustomAuthentication'
     ],
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
     # "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.CursorPagination",

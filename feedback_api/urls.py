@@ -48,7 +48,7 @@ urlpatterns = [
     ),
     path("admin/", admin.site.urls),
     path("i18n/", include("django.conf.urls.i18n")),
-    path("api/v1/feedback/", include("feedbacks.urls")),
+    path("api/v1/feedback/", include("feedback.urls")),
     path("api/v1/user/", include("user.urls")),
     path("api/v1/timeline/", include("timeline.urls")),
     # path('', include(router.urls))

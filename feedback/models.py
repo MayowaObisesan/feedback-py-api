@@ -37,7 +37,7 @@ class FeedbackModel(models.Model):
     title = models.CharField(max_length=256, default="", blank=True, null=True)
     description = models.TextField(max_length=200, default="")
     long_description = models.TextField(max_length=2000, default="")
-    category = models.CharField(max_length=20, choices=PLAYSTORE_APPS_CATEGORY, default="")
+    category = models.CharField(max_length=25, choices=PLAYSTORE_APPS_CATEGORY, default="")
     website = models.URLField(max_length=256, default="", blank=True, null=False)
     clicks = models.BigIntegerField(null=True)
     views = models.BigIntegerField(null=True)
@@ -69,7 +69,7 @@ class FeedbackModel(models.Model):
         """
         Override the save method to add custom updates to the app instance.
         """
-        self.name_id = self.generate_name_id(str(self.name))
+        # self.name_id = self.generate_name_id(str(self.name))
         super(FeedbackModel, self).save(*args, **kwargs)
         TimelineModel.objects.create_app_timeline(user_id=self.owner, app_id=self.id, category="LIST_APP")
 
